@@ -1,0 +1,17 @@
+20230402	16:08:08	16fb8b8e-b410-4ef1-bbc3-9372ca1a8ecd	TypeError: fsPromises.readFil is not a function
+20230409	14:14:38	254e86cb-682e-47e5-895c-a7faf3436a57	TypeError: res.accepts is not a function
+20230409	14:15:22	b11eb701-7710-47fd-ad1e-a36a722b34c7	TypeError: res.accepts is not a function
+20230409	14:15:46	a7be5b2b-b6b1-4be5-b644-5b1a42befffd	TypeError: res.accepts is not a function
+20230409	14:15:46	4f025eec-5b42-4260-b53a-1169131e214d	TypeError: res.accepts is not a function
+20230409	14:46:41	eb97c4a8-c931-49cd-bc66-c58e0c4eb815	TypeError: req.json is not a function
+20230409	14:47:24	1f516081-ed75-4cc4-9631-b9cdbeb691ed	TypeError: req.json is not a function
+20230409	14:47:39	e6d85987-a999-4c80-a970-ab2cb2e2aa99	TypeError: req.json is not a function
+20230409	14:48:29	dde99e15-1f97-4f26-94fe-65680adb4bef	TypeError: req.json is not a function
+20230409	15:46:32	20ccd4b5-0a09-43c0-b228-47730a028fbd	ReferenceError: sor is not defined
+20230409	15:47:49	9ce017bc-da1f-43a9-be59-99b18ac71bd8	ReferenceError: sort is not defined
+20230409	15:54:17	84af0a5e-188e-4b0f-b2fc-f267442aa38a	TypeError: data.employees.find is not a function
+20230414	22:16:53	b47724f4-eaf7-4a60-b305-8c3bf0d6e78e	SyntaxError: Unexpected token a in JSON at position 9
+20230414	22:19:50	a441ba08-01f5-4c59-98e4-ae045b41d32b	SyntaxError: Unexpected token ' in JSON at position 1
+20230414	22:20:06	2c6b178c-3113-411e-a7d2-0dfd991e37d3	SyntaxError: Unexpected token ' in JSON at position 1
+20230422	16:50:21	6cd3c925-8f24-4499-b787-07b7678b9767	ReferenceError: code is not defined
+20230422	16:51:32	c8e012a9-492d-468e-ae8b-9eb894ec2908	ReferenceError: code is not defined
