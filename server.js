@@ -8,7 +8,7 @@ const {logger} = require('./middleware/logEvents');
 const {errorHandler} = require('./middleware/errorHandler');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
-const PORT = process.env.port || 3500;
+const PORT = process.env.port || 3000;
 
 //Connect to MongoDB
 connectDB();
