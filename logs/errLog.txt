@@ -15,3 +15,9 @@
 20230414	22:20:06	2c6b178c-3113-411e-a7d2-0dfd991e37d3	SyntaxError: Unexpected token ' in JSON at position 1
 20230422	16:50:21	6cd3c925-8f24-4499-b787-07b7678b9767	ReferenceError: code is not defined
 20230422	16:51:32	c8e012a9-492d-468e-ae8b-9eb894ec2908	ReferenceError: code is not defined
+20230507	12:31:06	30f67748-0f0a-4e24-92d5-44fd603a54a2	ReferenceError: data is not defined
+20230507	13:39:24	12f931e1-84f0-4002-80b0-6ba6efbc2d8a	SyntaxError: Unexpected token K in JSON at position 17
+20230507	13:39:41	cfe8cf31-c181-414f-8476-1a4d5ad221f5	SyntaxError: Unexpected token K in JSON at position 12
+20230507	13:39:50	df118c38-eadd-4017-875a-a847571866c8	SyntaxError: Unexpected token K in JSON at position 12
+20230507	13:39:55	df2b5359-5b8b-4d9d-b26c-6b0718225a40	SyntaxError: Unexpected token K in JSON at position 12
+20230507	14:05:16	a3bf61ee-a28e-44f5-8610-1110ab8090d7	SyntaxError: Unexpected token [ in JSON at position 4

@@ -1,7 +1,4 @@
-const State = require('../model/States');
-//get all fun facts
-
-//get all States from json
+const State = require('../model/State');
 const data = {
     states: require('../model/statesData.json'),
     setStates: function (data) {this.states = data}
@@ -10,7 +7,7 @@ const data = {
 //combine the states at the json
 async function setFacts(){
     for (const state in data.states){ 
-        const fact = await State.findOne({statecode: data.states[state].code}).exec(); // compare each state
+        const fact = await State.findOne({statecode: data.states[state].code}).exec(); 
         if (fact){
             
             data.states[state].funfacts = fact.funfacts; // add the fun facts to the json
@@ -18,21 +15,22 @@ async function setFacts(){
     }
 }
 
-// run set facts to merge the json with the mongodb
+//we have to run the function to join json with mongodb
 setFacts();
 
 // Get all states
 const getAllStates = async (req,res)=> {
     // check to make see there is a query
     if (req.query){
-        if(req.query.contig == 'true')   // if there is remove two states
+        if(req.query.contig == 'true')
         {
+            //remove AK and HI 
             const result = data.states.filter(st => st.code != "AK" && st.code != "HI");
             res.json(result);
             return;
         }
-       // if not contig
-        else if (req.query.contig == 'false') // not not displa the two states
+       // if not continue
+        else if (req.query.contig == 'false')
          {
             const result = data.states.filter( st => st.code == "AK" || st.code == "HI");     
             res.json(result);
@@ -40,86 +38,83 @@ const getAllStates = async (req,res)=> {
          }
     }
 
-   res.json(data.states); // otherwise return all states
+   res.json(data.states);
 }
 
 // get one state
 const getState = (req,res)=> {
-    // get the state code and set it to upper
-    const code = req.params.state.toUpperCase();
+    const code = req.params.state;
     // do a search on the state param
-    const state = data.states.find( st => st.code == code);
-    if(!state){ // if it doesnt exist message
-        return res.status(404).json({'message': 'Invalid state abbreviation parameter'});
+    const state = data.states.find( st => st.code == code.toUpperCase());
+    if(!state){
+        return res.status(404).json({'message': 'Invalid state'});
     }
     res.json(state);
  }
 
- //get state and capital
+ //get capital of the state
  const getCapital = (req,res)=> {
-     // get the state code and set it to upper
-     const code = req.params.state.toUpperCase();
+     const code = req.params.state;
 
-    const state = data.states.find( st => st.code == code);
+    const state = data.states.find( st => st.code == code.toUpperCase());
     if(!state){// check state param
-        return res.status(404).json({'message': 'Invalid state abbreviation parameter'});
+        return res.status(404).json({'message': 'Invalid state'});
     }
-    res.json({"state": state.state, "capital": state.capital_city}); // if state send capital
+    res.json({"state": state.state, "capital": state.capital_city}); 
  }
 
  // get state and nickname
  const getNickname = (req,res)=> {
-     // get the state code and set it to upper
-     const code = req.params.state.toUpperCase();
+     const code = req.params.state;
 
-    const state = data.states.find( st => st.code == code); //check for state param
+    const state = data.states.find( st => st.code == code.toUpperCase());
+    //check for state
     if(!state){ 
-        return res.status(404).json({'message': 'Invalid state abbreviation parameter'});
+        return res.status(404).json({'message': 'Invalid state'});
     }
-    res.json({"state": state.state, "nickname": state.nickname}); // if state send nick
+    res.json({"state": state.state, "nickname": state.nickname});
  }
 
- // get state and population
+ // get population
  const getPopulation = (req,res)=> {
-     // get the state code and set it to upper
-    const code = req.params.state.toUpperCase();
+    const code = req.params.state;
 
-    const state = data.states.find( st => st.code == code); // check state param
+    const state = data.states.find( st => st.code == code.toUpperCase()); 
+    // check state
     if(!state){
-        return res.status(404).json({'message': 'Invalid state abbreviation parameter'});
+        return res.status(404).json({'message': 'Invalid state'});
     }
-    res.json({"state": state.state, "population": state.population.toLocaleString("en-US")}); // if state send population
+    res.json({"state": state.state, "population": state.population.toLocaleString("en-US")});
  }
  
- // get state and date of admittance
+ // get admission date
  const getAdmission = (req,res)=> {
+     const code = req.params.state;
 
-     // get the state code and set it to upper
-     const code = req.params.state.toUpperCase();
-
-    const state = data.states.find( st => st.code == code); // check state param
+    const state = data.states.find( st => st.code == code.toUpperCase()); 
+    // check state param
     if(!state){
-        return res.status(404).json({'message': 'Invalid state abbreviation parameter'});
+        return res.status(404).json({'message': 'Invalid state'});
     }
-    res.json({"state": state.state, "admitted": state.admission_date}); // if state send date of admittance
+    res.json({"state": state.state, "admitted": state.admission_date});
  }
 
  // get a random fun fact
  const getFunFact = (req,res)=>{
-     // get the state code and set it to upper
-     const code = req.params.state.toUpperCase();
+     const code = req.params.state;
 
-    const state = data.states.find( st => st.code == code);
-    if(!state){ // if it doesnt exist message
-        return res.status(404).json({'message': 'Invalid state abbreviation parameter'});
+    const state = data.states.find( st => st.code == code.toUpperCase());
+    if(!state){
+        return res.status(404).json({'message': 'Invalid state'});
     }
     if(state.funfacts){ // if the state has fun facts
     
-         res.status(201).json({"funfact": state.funfacts[Math.floor((Math.random()*state.funfacts.length))]}); // grab a random one
+         res.status(201).json({"funfact": state.funfacts[Math.floor((Math.random()*state.funfacts.length))]});
     } 
     else
     {
-        res.status(201).json({"message": `No Fun Facts found for ${state.state}`}); // if not send a message
+        //if there is no fun fact
+        res.status(201).json({"message": `No Fun Facts found for ${state.state}`});
     }
 }
 
@@ -156,23 +151,24 @@ const createFunFact = async (req,res)=>{
     setFacts(); // rebuild the json
 }
 
+
 const updateFunFact = async (req,res)=>{
     if(!req?.params?.state){ // check for state
-        return res.status(400).json({'message': 'Invalid state abbreviation parameter'});
+        return res.status(400).json({'message': 'Invalid state'});
     }
     if(!req?.body?.index) // check for index
     {
-        return res.status(400).json({"message": "State fun fact index value required"});
+        return res.status(400).json({'message': 'State fun fact index value required'});
     }
     if(!req?.body?.funfact){// check for fun fact
 
-        return res.status(400).json({"message": "State fun fact value required"});
+        return res.status(400).json({'message': 'fun fact required'});
     }
    
      // get the state code and set it to upper
      const code = req.params.state.toUpperCase();
 
-    const state = await State.findOne({statecode: code}).exec(); // find the state
+    const state = await State.findOne({statecode: code}).exec();
     const jstate = data.states.find( st => st.code == code);
 
     let index = req.body.index; // record the index
@@ -208,10 +204,10 @@ const deleteFunFact = async(req,res)=>{
     }
 
      // get the state code and set it to upper
-    const code = req.params.state.toUpperCase();
+    const code = req.params.state;
 
     const state = await State.findOne({statecode: code}).exec(); //find the state
-    const jstate = data.states.find( st => st.code == code);
+    const jstate = data.states.find( st => st.code == code.toUpperCase());
 
     let index = req.body.index; // record the index
 
@@ -235,4 +231,15 @@ const deleteFunFact = async(req,res)=>{
     setFacts(); // rebuild the json
 }
 
- module.exports={getAllStates, getState, getNickname, getPopulation, getCapital, getAdmission, getFunFact, createFunFact, updateFunFact,deleteFunFact};
+ module.exports={
+    getAllStates,
+    getState,
+    getNickname,
+    getPopulation,
+    getCapital,
+    getAdmission,
+    getFunFact,
+    createFunFact,
+    updateFunFact,
+    deleteFunFact
+};
