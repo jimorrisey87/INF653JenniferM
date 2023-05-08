@@ -197,7 +197,7 @@ const updateFunFact = async (req,res)=>{
     }
     if(!req?.body?.funfact){// check for fun fact
 
-        return res.status(400).json({'message': 'fun fact required'});
+        return res.status(400).json({'message': 'State fun fact value required'});
     }
    
      // get the state code and set it to upper
@@ -251,8 +251,8 @@ const deleteFunFact = async(req,res)=>{
         return res.status(400).json({"message": `No Fun Facts found for ${jstate.state}`});
     }
     
-    if(index > state.funfacts.length || index < 1 || !index){ // see if that index exists
-        const state = data.states.find( st => st.code == code);
+    if(index > state.funfacts.length || index < 1 || !index){
+        const state = data.states.find( st => st.code == code.toUpperCase());
         return res.status(400).json({"message": `No Fun Fact found at that index for ${jstate.state}`});
     }
     index -= 1; // reduce the index to meet the correct spot
