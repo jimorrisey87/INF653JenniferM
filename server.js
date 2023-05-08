@@ -41,6 +41,8 @@ app.all( '*', (req,res) => {
 
 // user error handler
 app.use(errorHandler);
+    
+app.use(express.json());
 
 // open mongoose connection for mondodb
 mongoose.connection.once('open', () => {

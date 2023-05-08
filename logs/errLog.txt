@@ -21,3 +21,5 @@
 20230507	13:39:50	df118c38-eadd-4017-875a-a847571866c8	SyntaxError: Unexpected token K in JSON at position 12
 20230507	13:39:55	df2b5359-5b8b-4d9d-b26c-6b0718225a40	SyntaxError: Unexpected token K in JSON at position 12
 20230507	14:05:16	a3bf61ee-a28e-44f5-8610-1110ab8090d7	SyntaxError: Unexpected token [ in JSON at position 4
+20230507	16:30:49	f9e0fa8f-449c-42ca-bb6b-d2d8d82398d3	SyntaxError: Unexpected token O in JSON at position 17
+20230507	16:30:56	2b5bf7fe-5efb-4062-a932-cf40de7e5a20	SyntaxError: Unexpected token O in JSON at position 17

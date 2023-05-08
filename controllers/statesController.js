@@ -4,19 +4,27 @@ const data = {
     setStates: function (data) {this.states = data}
 };
 
+//verify state
+const verifyState = async (req,res, next) => {
+    const stateCode = req.params.state;
+    const isValidState = validateState(stateCode);
+
+    return isValidState ? next () : res.json({message: "State Abbreviation INVALID"});
+}
+
 //combine the states at the json
-async function setFacts(){
+async function setStates(){
     for (const state in data.states){ 
-        const fact = await State.findOne({statecode: data.states[state].code}).exec(); 
+        const fact = await State.findOne({
+            statecode: data.states[state].code}).exec(); 
         if (fact){
-            
-            data.states[state].funfacts = fact.funfacts; // add the fun facts to the json
+            data.states[state].funfacts = fact.funfacts;
         }
     }
 }
 
-//we have to run the function to join json with mongodb
-setFacts();
+//run function to join with mongodb
+setStates();
 
 // Get all states
 const getAllStates = async (req,res)=> {
@@ -44,7 +52,6 @@ const getAllStates = async (req,res)=> {
 // get one state
 const getState = (req,res)=> {
     const code = req.params.state;
-    // do a search on the state param
     const state = data.states.find( st => st.code == code.toUpperCase());
     if(!state){
         return res.status(404).json({'message': 'Invalid state'});
@@ -60,19 +67,25 @@ const getState = (req,res)=> {
     if(!state){// check state param
         return res.status(404).json({'message': 'Invalid state'});
     }
-    res.json({"state": state.state, "capital": state.capital_city}); 
+    res.json({
+        "state": state.state,
+        "capital": state.capital_city
+    }); 
  }
 
- // get state and nickname
+ // get state nickname
  const getNickname = (req,res)=> {
-     const code = req.params.state;
-
+    const code = req.params.state;
     const state = data.states.find( st => st.code == code.toUpperCase());
+
     //check for state
     if(!state){ 
         return res.status(404).json({'message': 'Invalid state'});
     }
-    res.json({"state": state.state, "nickname": state.nickname});
+    res.json({
+        "state": state.state,
+        "nickname": state.nickname
+    });
  }
 
  // get population
@@ -84,7 +97,10 @@ const getState = (req,res)=> {
     if(!state){
         return res.status(404).json({'message': 'Invalid state'});
     }
-    res.json({"state": state.state, "population": state.population.toLocaleString("en-US")});
+    res.json({
+        "state": state.state,
+        "population": state.population.toLocaleString("en-US")
+    });
  }
  
  // get admission date
@@ -96,7 +112,10 @@ const getState = (req,res)=> {
     if(!state){
         return res.status(404).json({'message': 'Invalid state'});
     }
-    res.json({"state": state.state, "admitted": state.admission_date});
+    res.json({
+        "state": state.state,
+        "admitted": state.admission_date
+    });
  }
 
  // get a random fun fact
@@ -107,48 +126,64 @@ const getState = (req,res)=> {
     if(!state){
         return res.status(404).json({'message': 'Invalid state'});
     }
-    if(state.funfacts){ // if the state has fun facts
+    //state has fun fact
+    if(state.funfacts){ 
     
          res.status(201).json({"funfact": state.funfacts[Math.floor((Math.random()*state.funfacts.length))]});
     } 
     else
     {
-        //if there is no fun fact
+    //if there is no fun fact
         res.status(201).json({"message": `No Fun Facts found for ${state.state}`});
     }
 }
 
 // create fun facgts
-const createFunFact = async (req,res)=>{
-    if (!req?.params?.state){ // check for state
-        return res.status(400).json({'message': 'Invalid state abbreviation parameter'});
-    }
-    if(!req?.body?.funfacts){
+/* const createFunFact = async (req,res)=>{
+    const stateCode = req.params.state;
+    const funFactsBody = req.body.funfacts;
 
-        return res.status(400).json({"message": "State fun facts value required"});
+    //check for value
+    if(!funFactsBody){
+        return res.status(400).json({ 'message': 'Fun fact required!'});
     }
-    if(!Array.isArray(req.body.funfacts)) { // check for array
-        return res.status(400).json({'message': "State fun facts value must be an array"});
+    //check if array
+    if(!Array.isArray(funFactsBody)){
+        return res.status(400).json({'message': 'Fun Fact must be an Array!'});
     }
 
-     // get the state code and set it to upper
-     const code = req.params.state.toUpperCase();
+    let state = await State.findOne({ stateCode: stateCode.toUpperCase() }).exec();
 
+    // if state does NOT exists, add MongoDB document
+    if (!state) {
+        state = await State.create({
+            stateCode: stateCode.toUpperCase(),
+            funfacts: funFactsBody
+        });
+    } else {
+        // if state exists, update MongoDB document
+        state.funfacts = [...state.funfacts, ...funFactsBody];
+        state.save();
+    }
+
+    res.status(201).json(state);
+
+} */
+
+const createFunFact = async (req, res) => {
+    if (!req?.body?.funfacts) return res.status(400).json({ 'message': 'State fun facts value required' });
+    if (!Array.isArray(req.body.funfacts)) return res.json({ 'message': 'State fun facts value must be an array' });
     try {
-        // if the funfact cannot be added to an existing group create a new one 
-       if(!await State.findOneAndUpdate({statecode: code},{$push: {"funfacts": req.body.funfacts}})){   
-            await State.create({ 
-                statecode: code,
-                funfacts: req.body.funfacts
-             });
-        } // grab the result of the operation
-        const result = await State.findOne({statecode: code}).exec();
-     
-
-        res.status(201).json(result); // send it out
-    } catch (err) {console.error(err);}   
-    
-    setFacts(); // rebuild the json
+        await State.updateOne(
+            { code: req.code },
+            { $push: { funfacts: req.body.funfacts } },
+            { upsert: true }
+        );
+        const stateDB = await State.findOne({ code: req.code }).exec();
+        return res.status(201).json(stateDB);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 
@@ -190,7 +225,7 @@ const updateFunFact = async (req,res)=>{
 
     res.status(201).json(result);
 
-    setFacts(); // rebuild the json
+    setStates(); // rebuild the json
 }   
 
 const deleteFunFact = async(req,res)=>{
@@ -228,7 +263,7 @@ const deleteFunFact = async(req,res)=>{
 
     res.status(201).json(result);
 
-    setFacts(); // rebuild the json
+    setStates(); // rebuild the json
 }
 
  module.exports={
