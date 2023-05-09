@@ -123,7 +123,8 @@
       "landscape_background_url": "https://cdn.civil.services/us-states/backgrounds/1280x720/landscape/colorado.jpg",
       "skyline_background_url": "https://cdn.civil.services/us-states/backgrounds/1280x720/skyline/colorado.jpg",
       "twitter_url": "https://twitter.com/coloradogov",
-      "facebook_url": "https://www.facebook.com/Colorado.gov"
+      "facebook_url": "https://www.facebook.com/Colorado.gov",
+      "funfacts": ["funfact1", "funfact2", "funfact3"]
     },
     {
       "state": "Connecticut",
@@ -522,7 +523,8 @@
       "landscape_background_url": "https://cdn.civil.services/us-states/backgrounds/1280x720/landscape/missouri.jpg",
       "skyline_background_url": "https://cdn.civil.services/us-states/backgrounds/1280x720/skyline/missouri.jpg",
       "twitter_url": "https://twitter.com/MoGov",
-      "facebook_url": "https://www.facebook.com/mogov"
+      "facebook_url": "https://www.facebook.com/mogov",
+      "funfacts": ["funfact1", "funfact2", "funfact3"]
     },
     {
       "state": "Montana",
@@ -564,7 +566,8 @@
       "landscape_background_url": "https://cdn.civil.services/us-states/backgrounds/1280x720/landscape/nebraska.jpg",
       "skyline_background_url": "https://cdn.civil.services/us-states/backgrounds/1280x720/skyline/nebraska.jpg",
       "twitter_url": "https://twitter.com/Nebraskagov",
-      "facebook_url": "https://www.facebook.com/nebraska.gov"
+      "facebook_url": "https://www.facebook.com/nebraska.gov",
+      "funfacts": ["funfact1", "funfact2", "funfact3"]
     },
     {
       "state": "Nevada",
@@ -753,7 +756,8 @@
       "landscape_background_url": "https://cdn.civil.services/us-states/backgrounds/1280x720/landscape/oklahoma.jpg",
       "skyline_background_url": "https://cdn.civil.services/us-states/backgrounds/1280x720/skyline/oklahoma.jpg",
       "twitter_url": "https://twitter.com/okgov",
-      "facebook_url": "https://www.facebook.com/okgov"
+      "facebook_url": "https://www.facebook.com/okgov",
+      "funfacts": ["funfact1", "funfact2", "funfact3"]
     },
     {
       "state": "Oregon",

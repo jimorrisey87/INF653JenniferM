@@ -9,7 +9,7 @@ const connectDB = async () => {
         });
 
     } catch (err) {
-        logEvents(`${err.name}: ${err.message}`, 'errLog.txt');
+        console.error(err);
     }
 }
 
