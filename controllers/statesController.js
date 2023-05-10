@@ -1,3 +1,4 @@
+const { formatRelativeWithOptions } = require('date-fns/fp');
 const State = require('../model/State');
 const data = {
     states: require('../model/statesData.json'),
@@ -138,22 +139,28 @@ const getState = (req,res)=> {
     }
 }
 
+
 const createFunFact = async (req, res) => {
     if (!req?.body?.funfacts) return res.status(400).json({ 'message': 'State fun facts value required' });
     if (!Array.isArray(req.body.funfacts)) return res.json({ 'message': 'State fun facts value must be an array' });
+
+    const code = req.params.state.toUpperCase();
     try {
-        await State.updateOne(
-            { code: req.code },
-            { $push: { funfacts: req.body.funfacts } },
-            { upsert: true }
-        );
+        if(!await State.findOneAndUpdate({statceode: code}, {$push: {"funfacts": req.body.funfacts}})){
+        await State.create({
+            statecode: code,
+            funfacts: req.body.funfacts
+        });
+    }
         const stateDB = await State.findOne({ code: req.code }).exec();
         return res.status(201).json(stateDB);
     } catch (err) {
         console.error(err);
     }
+    setStates();
 }
 
+     
 
 const updateFunFact = async (req,res)=>{
     //check state code
